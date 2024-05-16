@@ -14,4 +14,15 @@ router.post(
   }
 );
 
+router.post(
+  "/login",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await AuthController.loginUser(req.ctx);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 export default router;

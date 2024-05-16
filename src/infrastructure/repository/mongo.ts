@@ -44,6 +44,19 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
   }
 
   /**
+   * Finds a document that matches the query and filters required fields using projections
+   * @param query
+   * @param projections
+   */
+  async findOne(
+    query: Record<string, any>,
+    projections?: any
+  ): Promise<T | null> {
+    const result = await this.model.findOne(query).select(projections).exec();
+    return result;
+  }
+
+  /**
    * Finds all documents that match a query
    * @param query
    * @param projections

@@ -20,4 +20,8 @@ export const registerDependencies = () => {
   container.register("HasherInterface", {
     useClass: cryptography.defaultHasher,
   });
+
+  container.register("JWTGeneratorInterface", {
+    useClass: cryptography.defaultTokenGenerator,
+  });
 };

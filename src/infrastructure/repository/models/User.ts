@@ -25,6 +25,7 @@ export const UserSchema = new Schema({
     trim: true,
     index: true,
     required: true,
+    unique: true,
   },
   deviceID: {
     type: SchemaTypes.String,

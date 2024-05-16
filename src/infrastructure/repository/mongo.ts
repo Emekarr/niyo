@@ -1,9 +1,7 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 import BaseError from "../../application/errors/BaseError";
 import { PaginationQuery, Repository } from "./type";
-import { generateUniqueID } from "../../application/utils";
-import Logger from "../../application/loggers/Logger";
-import { LoggerLevel } from "../../application/loggers/types";
+import { sanitizeFilter } from "mongoose";
 
 export class BaseMongoRepository<T extends Document> implements Repository<T> {
   model: Model<T>;
@@ -34,9 +32,11 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
    */
   async findByID(id: string, projections?: any): Promise<T> {
     const result = await this.model
-      .findOne({
-        id,
-      })
+      .findOne(
+        sanitizeFilter({
+          id,
+        })
+      )
       .select(projections)
       .exec();
     if (!result) throw new BaseError(`${this.name} not found`, 404, false);
@@ -52,7 +52,10 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
     query: Record<string, any>,
     projections?: any
   ): Promise<T | null> {
-    const result = await this.model.findOne(query).select(projections).exec();
+    const result = await this.model
+      .findOne(sanitizeFilter(query))
+      .select(projections)
+      .exec();
     return result;
   }
 
@@ -63,10 +66,12 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
    */
   async list(query: PaginationQuery, projections?: any): Promise<T[]> {
     const result = await this.model
-      .find({
-        ...query.conditions,
-        deleted_at: undefined,
-      })
+      .find(
+        sanitizeFilter({
+          ...query.conditions,
+          deleted_at: undefined,
+        })
+      )
       .select(projections)
       .exec();
     return result;
@@ -78,7 +83,7 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
    * @param payload
    */
   async updateOne(condition: Record<string, any>, payload: any): Promise<T> {
-    const result = await this.model.findOne<T>(condition);
+    const result = await this.model.findOne<T>(sanitizeFilter(condition));
     if (!result) throw new BaseError(`${this.name} not found`, 404, false);
     result.set(payload);
     const updatedDocument = await result.save();
@@ -91,7 +96,7 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
    */
   async remove(condition: Record<string, any>): Promise<T> {
     const result = await this.model.findOneAndUpdate(
-      condition,
+      sanitizeFilter(condition),
       {
         deletedAt: new Date(),
       },

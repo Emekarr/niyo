@@ -19,7 +19,6 @@ export default {
   },
   deletedAt: {
     type: SchemaTypes.Date,
-    required: true,
-    default: new Date(),
+    default: null,
   },
 };

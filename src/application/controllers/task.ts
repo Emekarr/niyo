@@ -1,5 +1,6 @@
 import { Context } from "../../entities/interfaces/Context";
 import BaseError from "../errors/BaseError";
+import taskRepo from "../repository/taskRepo";
 import CreateTask from "../usecases/task/CreateTask";
 import DeleteTask from "../usecases/task/DeleteTask";
 import UpdateTask from "../usecases/task/UpdateTask";
@@ -27,5 +28,28 @@ export default abstract class TaskController {
     if (!taskID) throw new BaseError("task id is required", 400);
     const result = await DeleteTask.execute(ctx.ctxParams!["id"], taskID);
     ctx.respond(ctx.ctx, "task deleted", 200, result);
+  }
+
+  static async getTasks(ctx: Context<any>) {
+    const limit = ctx.query!["limit"];
+    const lastID = ctx.query!["lastID"];
+    const result = await taskRepo.instance.list({
+      conditions: {
+        userID: ctx.ctxParams!["id"],
+        _id: (function (): object {
+          if (!lastID) {
+            return {
+              $gt: "",
+            };
+          }
+          return {
+            $gt: lastID,
+          };
+        })(),
+      },
+      limit: Number(limit),
+      sort: "-_id",
+    });
+    ctx.respond(ctx.ctx, "tasks fetched", 200, result);
   }
 }

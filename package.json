@@ -26,8 +26,7 @@
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.2.1",
     "tsyringe": "^4.8.0",
-    "uuid": "^9.0.1",
-    "uuidv4": "^6.2.13"
+    "ulid": "^2.3.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

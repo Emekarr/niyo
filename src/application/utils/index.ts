@@ -1,5 +1,5 @@
-import { uuid } from "uuidv4";
+import { monotonicFactory } from "ulid";
 
 export const generateUniqueID = () => {
-  return uuid();
+  return monotonicFactory()();
 };

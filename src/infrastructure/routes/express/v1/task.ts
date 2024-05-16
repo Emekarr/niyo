@@ -40,4 +40,16 @@ router.patch(
   }
 );
 
+router.get(
+  "/fetch",
+  AuthMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await TaskController.getTasks(req.ctx);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 export default router;

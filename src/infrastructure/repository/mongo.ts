@@ -67,13 +67,13 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
    */
   async list(query: PaginationQuery, projections?: any): Promise<T[]> {
     const result = await this.model
-      .find(
-        sanitizeFilter({
-          ...query.conditions,
-          deletedAt: null,
-        })
-      )
+      .find({
+        ...query.conditions,
+        deletedAt: null,
+      })
       .select(projections)
+      .sort(query.sort)
+      .limit(query.limit || 10)
       .exec();
     return result;
   }

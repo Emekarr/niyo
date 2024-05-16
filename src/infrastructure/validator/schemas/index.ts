@@ -13,7 +13,7 @@ const createUserSchema = Joi.object({
 const createTaskSchema = Joi.object({
   title: Joi.string().max(200).required(),
   body: Joi.string().max(10000).required(),
-  userID: Joi.string().uuid().required(),
+  userID: Joi.string().required(),
 });
 
 const updateTaskSchema = Joi.alternatives(

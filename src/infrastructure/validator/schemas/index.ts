@@ -1,4 +1,4 @@
-import Joi, { ObjectSchema } from "joi";
+import Joi, { AlternativesSchema, ObjectSchema } from "joi";
 
 const createUserSchema = Joi.object({
   firstName: Joi.string().max(20).required(),
@@ -16,9 +16,21 @@ const createTaskSchema = Joi.object({
   userID: Joi.string().uuid().required(),
 });
 
-const schemaMap: Record<string, ObjectSchema> = {
+const updateTaskSchema = Joi.alternatives(
+  Joi.object({
+    title: Joi.string().max(200).required(),
+    body: Joi.string().max(10000),
+  }),
+  Joi.object({
+    title: Joi.string().max(200),
+    body: Joi.string().max(10000).required(),
+  })
+);
+
+const schemaMap: Record<string, ObjectSchema | AlternativesSchema> = {
   create_user: createUserSchema,
   create_task: createTaskSchema,
+  update_task: updateTaskSchema,
 };
 
 export default schemaMap;

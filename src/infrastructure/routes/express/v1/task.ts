@@ -16,4 +16,16 @@ router.post(
   }
 );
 
+router.patch(
+  "/update",
+  AuthMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await TaskController.updateTask(req.ctx);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 export default router;

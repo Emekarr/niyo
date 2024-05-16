@@ -45,6 +45,10 @@ const getClientURL = (): string => {
   return process.env.CLIENT_URL as string;
 };
 
+const getMinAppVersion = (): number => {
+  return Number(process.env.MIN_APP_VERSION);
+};
+
 export default {
   getAllowedHeaders,
   getJSONLimit,
@@ -57,4 +61,5 @@ export default {
   getMongoURL,
   getDatabaseName,
   getNodeEnv,
+  getMinAppVersion,
 };

@@ -14,6 +14,7 @@ import Logger from "../../application/loggers/Logger";
 import { LoggerLevel } from "../../application/loggers/types";
 import ErrorMiddleware from "../middleware/express/error";
 import HeaderMiddleware from "../middleware/express/headers";
+import AppVersionMiddleware from "../middleware/express/appVersion";
 
 export default class ExpressServer implements ServerInterface {
   start(): any {
@@ -57,6 +58,7 @@ export default class ExpressServer implements ServerInterface {
     );
 
     server.use(HeaderMiddleware);
+    server.use(AppVersionMiddleware)
 
     server.use("/api", router.registerRoutes());
 

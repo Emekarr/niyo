@@ -13,7 +13,7 @@ export default abstract class CreateTask {
     if (result.err) {
       throw new BaseError(result.err.message, 400, false);
     }
-    taskRepo.instance.create(result.value);
-    return result.value;
+    const task = taskRepo.instance.create(result.value);
+    return task;
   }
 }

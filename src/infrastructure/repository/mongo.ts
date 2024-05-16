@@ -35,6 +35,7 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
       .findOne(
         sanitizeFilter({
           id,
+          deletedAt: null,
         })
       )
       .select(projections)
@@ -53,7 +54,7 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
     projections?: any
   ): Promise<T | null> {
     const result = await this.model
-      .findOne(sanitizeFilter(query))
+      .findOne(sanitizeFilter({ ...query, deletedAt: null }))
       .select(projections)
       .exec();
     return result;
@@ -69,7 +70,7 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
       .find(
         sanitizeFilter({
           ...query.conditions,
-          deleted_at: undefined,
+          deletedAt: null,
         })
       )
       .select(projections)
@@ -83,7 +84,9 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
    * @param payload
    */
   async updateOne(condition: Record<string, any>, payload: any): Promise<T> {
-    const result = await this.model.findOne<T>(sanitizeFilter(condition));
+    const result = await this.model.findOne<T>(
+      sanitizeFilter({ ...condition, deletedAt: null })
+    );
     if (!result) throw new BaseError(`${this.name} not found`, 404, false);
     result.set(payload);
     const updatedDocument = await result.save();

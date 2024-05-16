@@ -1,4 +1,5 @@
 import { Context } from "../../entities/interfaces/Context";
+import BaseError from "../errors/BaseError";
 
 const requiredHeaders = ["user-agent", "x-app-version", "x-device-id"];
 

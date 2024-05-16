@@ -1,4 +1,3 @@
-import { container } from "tsyringe";
 import {
   LoggerInterface,
   LoggerLevel,

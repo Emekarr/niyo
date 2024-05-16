@@ -9,7 +9,6 @@ export interface Context<T> {
     errors?: any[]
   ) => void;
   errRespond: (errors: any) => void;
-  setHTTPOnlyCookie: (ctx: any, name: string, cookie: string) => void;
   query?: Record<string, string>;
   ctxParams?: Record<string, string>;
   body?: T;

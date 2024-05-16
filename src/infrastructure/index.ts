@@ -1,4 +1,4 @@
-import { registerDependencies } from "./injection";
+import { initiateDBConnection } from "./database";
 import DefaultServer from "./server";
 import ServerInterface from "./types";
 
@@ -7,7 +7,7 @@ export const startServer = (server: ServerInterface) => {
 };
 
 export const startServices = () => {
-  registerDependencies();
+  initiateDBConnection();
 };
 
 export default () => {

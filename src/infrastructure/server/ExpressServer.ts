@@ -12,8 +12,8 @@ import helmet from "helmet";
 import { Options } from "express-rate-limit";
 import Logger from "../../application/loggers/Logger";
 import { LoggerLevel } from "../../application/loggers/types";
-import { ErrorMiddleware } from "../../application/middleware/error";
-import { HeadersMiddleware } from "../../application/middleware/headers";
+import ErrorMiddleware from "../middleware/express/error";
+import HeaderMiddleware from "../middleware/express/headers";
 
 export default class ExpressServer implements ServerInterface {
   start(): any {
@@ -22,9 +22,9 @@ export default class ExpressServer implements ServerInterface {
     server.use(morgan("combined"));
     server.use(helmet());
 
-    // rate limiter
     server.use(
-      RateLimiter.init<Options>(10 * 60 * 1000, 3000, {
+      // in 1 minute 1 ip address can make a maximum of 25 requests after which they will be rate limited
+      RateLimiter.init<Options>(60 * 1000, 25, {
         standardHeaders: true,
         legacyHeaders: false,
         keyGenerator: (req, res) => {
@@ -56,7 +56,7 @@ export default class ExpressServer implements ServerInterface {
       express.urlencoded({ extended: true, limit: config.getJSONLimit() })
     );
 
-    server.use(HeadersMiddleware);
+    server.use(HeaderMiddleware);
 
     server.use("/api", router.registerRoutes());
 

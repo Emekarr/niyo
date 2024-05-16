@@ -1,4 +1,4 @@
-class BaseError extends Error {
+export default class BaseError extends Error {
   constructor(
     public msg: string,
     public statusCode: number = 500,

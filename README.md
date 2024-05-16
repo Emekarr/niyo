@@ -1,5 +1,8 @@
 # Documentation
 
+Deployed URL - https://niyo.onrender.com
+Documentation - https://documenter.getpostman.com/view/25448990/2sA3JRaf7y
+
 This project was build using Clean Architecture principles.  
 Tools used are :-
 - NodeJS
@@ -45,4 +48,5 @@ This layer holds type implementations that will be used accross both layers.
 
 - Duplicate the `.env.example` folder, update its name to `.env` and replace the values there with whatever your choice is.
 
-- Run the development server using `yarn run dev` and you should see this printed out on the console `{ level: 'info', msg: 'server running on PORT 1010', meta: [] }`
+- Run the development server using `yarn run dev` and you should see this printed out on the console  
+`{ level: 'info', msg: 'server running on PORT 1010', meta: [] }`

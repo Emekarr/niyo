@@ -28,4 +28,16 @@ router.patch(
   }
 );
 
+router.patch(
+  "/delete",
+  AuthMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await TaskController.deleteTask(req.ctx);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 export default router;

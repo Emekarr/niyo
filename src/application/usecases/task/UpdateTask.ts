@@ -1,6 +1,8 @@
 import { ValidatorSchemas } from "../../../entities/interfaces/Validator";
 import { UpdateTaskDTO } from "../../controllers/dto/task";
 import BaseError from "../../errors/BaseError";
+import Logger from "../../loggers/Logger";
+import { LoggerLevel } from "../../loggers/types";
 import taskRepo from "../../repository/taskRepo";
 import validator from "../../validator";
 
@@ -20,6 +22,7 @@ export default abstract class UpdateTask {
       },
       result.value
     );
+    Logger.instance.write(LoggerLevel.info, "task updated");
     return task;
   }
 }

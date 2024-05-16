@@ -99,7 +99,7 @@ export class BaseMongoRepository<T extends Document> implements Repository<T> {
    */
   async remove(condition: Record<string, any>): Promise<T> {
     const result = await this.model.findOneAndUpdate(
-      sanitizeFilter(condition),
+      sanitizeFilter({ ...condition, deletedAt: null }),
       {
         deletedAt: new Date(),
       },

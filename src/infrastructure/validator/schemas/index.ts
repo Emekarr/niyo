@@ -10,8 +10,15 @@ const createUserSchema = Joi.object({
   appVersion: Joi.string().required(),
 });
 
+const createTaskSchema = Joi.object({
+  title: Joi.string().max(200).required(),
+  body: Joi.string().max(10000).required(),
+  userID: Joi.string().uuid().required(),
+});
+
 const schemaMap: Record<string, ObjectSchema> = {
   create_user: createUserSchema,
+  create_task: createTaskSchema,
 };
 
 export default schemaMap;

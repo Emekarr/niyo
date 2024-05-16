@@ -1,11 +1,11 @@
-import { ValidatorSchemas } from "../../entities/interfaces/Validator";
-import { CreateUserDTO } from "../controllers/dto/auth";
-import hasher from "../cryptography/hasher";
-import BaseError from "../errors/BaseError";
-import Logger from "../loggers/Logger";
-import { LoggerLevel } from "../loggers/types";
-import userRepo from "../repository/userRepo";
-import validator from "../validator";
+import { ValidatorSchemas } from "../../../entities/interfaces/Validator";
+import { CreateUserDTO } from "../../controllers/dto/auth";
+import hasher from "../../cryptography/hasher";
+import BaseError from "../../errors/BaseError";
+import Logger from "../../loggers/Logger";
+import { LoggerLevel } from "../../loggers/types";
+import userRepo from "../../repository/userRepo";
+import validator from "../../validator";
 
 export default abstract class CreateUser {
   static async execute(

@@ -3,6 +3,7 @@ import WinstonLogger from "../logger/winston";
 import JoiValidator from "../validator/joi";
 import UserRepo from "../repository/modelRepos/userRepo";
 import cryptography from "../cryptography";
+import TaskRepo from "../repository/modelRepos/taskRepo";
 
 export const registerDependencies = () => {
   container.register("LoggerInterface", {
@@ -15,6 +16,10 @@ export const registerDependencies = () => {
 
   container.register("UserRepo", {
     useClass: UserRepo,
+  });
+
+  container.register("TaskRepo", {
+    useClass: TaskRepo,
   });
 
   container.register("HasherInterface", {

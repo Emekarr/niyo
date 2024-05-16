@@ -1,8 +1,8 @@
-import { LoginUserDTO } from "../controllers/dto/auth";
-import hasher from "../cryptography/hasher";
-import jwtGenerator from "../cryptography/jwtGenerator";
-import BaseError from "../errors/BaseError";
-import userRepo from "../repository/userRepo";
+import { LoginUserDTO } from "../../controllers/dto/auth";
+import hasher from "../../cryptography/hasher";
+import jwtGenerator from "../../cryptography/jwtGenerator";
+import BaseError from "../../errors/BaseError";
+import userRepo from "../../repository/userRepo";
 
 export default abstract class LoginUser {
   static async execute(

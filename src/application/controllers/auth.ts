@@ -1,6 +1,6 @@
 import { Context } from "../../entities/interfaces/Context";
-import CreateUser from "../usecases/CreateUser";
-import LoginUser from "../usecases/LoginUser";
+import CreateUser from "../usecases/auth/CreateUser";
+import LoginUser from "../usecases/auth/LoginUser";
 import { CreateUserDTO, LoginUserDTO } from "./dto/auth";
 
 export default abstract class AuthController {

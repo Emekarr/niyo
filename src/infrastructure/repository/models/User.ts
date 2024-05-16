@@ -2,7 +2,7 @@ import { Document, Schema, SchemaTypes } from "mongoose";
 import User from "../../../entities/domain/User";
 import base from "./base";
 
-export interface UserModel extends User, Document {}
+export interface UserModel extends User, Omit<Document, "id"> {}
 
 export const UserSchema = new Schema({
   firstName: {

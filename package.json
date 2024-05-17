@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.6",
-    "argon2": "^0.40.1",
     "bcryptjs": "^2.4.3",
     "bunyan": "^1.8.15",
     "cors": "^2.8.5",

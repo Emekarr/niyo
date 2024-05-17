@@ -29,6 +29,7 @@ export default abstract class CreateUser {
       channel: "CREATED_USER",
       data: createdUser,
     });
+    createdUser.password = null;
     return createdUser;
   }
 }

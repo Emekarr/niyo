@@ -17,7 +17,10 @@ export default abstract class LoginUser {
     });
     if (!user)
       throw new BaseError("user with email does not exist", 404, false);
-    const match = await hasher.instance.verify(payload.password, user.password);
+    const match = await hasher.instance.verify(
+      payload.password,
+      user.password!
+    );
     if (!match) throw new BaseError("incorrect password");
     // in a production scenario a change detected in one of these values will lead to
     // the system requiring the user to provide an otp to verify the authenticity of the login attempt
@@ -37,6 +40,7 @@ export default abstract class LoginUser {
       channel: "LOGIN_USER",
       data: user,
     });
+    user.password = null;
     return { user, token };
   }
 }

@@ -66,7 +66,7 @@ The application layer emits data on the `SocketDotIO` implementation using the b
 ## EXTRA NOTES
 
 - `tsyringe` was not used to manage all dependencies within the project. It was used only to acheive the 0 interaction required from the application layer to infrastructure layer.
-- `ULID` wa substituted for `UUID` because of its non-monotonically increasing nature. This means `UUID`\`s created just miliseconds apart will not always be sorted by the time they were created but this is a chracteristics with want from the ID because it is cruicial for us to paginate correctly and quickly. `ULID` solves this for us and works perfectly.
+- `ULID` was substituted for `UUID` because of its non-monotonically increasing nature. This means `UUID`\`s created just miliseconds apart will not always be sorted by the time they were created but this is a chracteristics we want from the ID because it is cruicial to us for paginating correctly and quickly. `ULID` solves this for us and works perfectly.
 
 ## SET UP GUIDE
 

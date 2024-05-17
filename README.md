@@ -35,6 +35,29 @@ This layer holds type implementations that will be used accross both layers.
 - Use node `20.11.0 >` to avoid any issues
 - If you are experiencing database connection issues upgrade your NodeJS version to `Node 20.11.0`
 - The deployed server is on a free tier and will most likely be asleep if you try to interact with it now. Please hit the ping endpoint and wait for a response before you proceed with testing.
+- Postman does not allow sharing of folders containing `Socket.io` requests so it is absent on the documentation link provided.
+
+## CREATING A SOCKET CONNECTION
+To create a Socket.io connection to the server and stream data that is created and updated you will need to make use of Postman or any other tool that can create and maintain the connection.
+To initiate a handshake with the server you will need to make a call to `{{api}}/socket/connect`.  
+`/socket/connect` is the namespace created on the server and only requests to that "route" will be accepted and authenticated.  
+The following headers are required before a Socket.io connection is created :-
+- Authorization
+- x-device-id
+- x-app-version  
+- User-Agent 
+
+If any of these required headers are missing or the data is inconsistent the handshake will fail. All header values used to communicate with the REST API are valid when trying to initate a handshake with the server.
+
+## SOCKET EVENTS 
+- CREATED_USER - This event is emitted after a user is created
+- LOGIN_USER - This event is emitted after a user logs in
+- CREATE_TASK - This event is emitted after a task is created
+- DELETE_TASK - This event is emitted after a task is deleted
+- UPDATE_TASK - This event is emitted after a task is updated
+
+## SOCKET IMPLEMENTATION
+The application layer emits data on the `SocketDotIO` implementation using the built in NodeJS package `node:events`. This package handles emiting and registering of events on NodeJS. This is used to allow communication between the application layer and the Socket connection and this is because the preferred way of communicating with implementations in the infrastructure layer from the application layer is through the user of a dependency injection (tsyringe) but this only creates one instance of that class and that will be accessible from the application layer only, but the Socket.io instance needs to be initialised using the `http.Server` created from opening a server port. Because of this a socket instance needed to be created in the infrastructure layer and the only way to ensure the application layer communicates with it without breaking the Clean Architecture principles was to emit the events from the application layer and react to these events from the infrastructure layer.
 
 ## ISSUES
 

@@ -2,6 +2,7 @@ import { LoginUserDTO } from "../../controllers/dto/auth";
 import hasher from "../../cryptography/hasher";
 import jwtGenerator from "../../cryptography/jwtGenerator";
 import BaseError from "../../errors/BaseError";
+import eventEmitter from "../../eventEmitter";
 import userRepo from "../../repository/userRepo";
 
 export default abstract class LoginUser {
@@ -31,6 +32,10 @@ export default abstract class LoginUser {
       appVersion,
       userAgent,
       deviceID,
+    });
+    eventEmitter.instance.emitEvent("SOCKET_EVENT", {
+      channel: "LOGIN_USER",
+      data: user,
     });
     return { user, token };
   }

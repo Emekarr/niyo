@@ -1,6 +1,6 @@
 import { initiateDBConnection } from "./database";
 import DefaultServer from "./server";
-import ServerInterface from "./types";
+import { ServerInterface } from "./server/types";
 
 export const startServer = (server: ServerInterface) => {
   return server.start();

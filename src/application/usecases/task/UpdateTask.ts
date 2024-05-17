@@ -1,6 +1,7 @@
 import { ValidatorSchemas } from "../../../entities/interfaces/Validator";
 import { UpdateTaskDTO } from "../../controllers/dto/task";
 import BaseError from "../../errors/BaseError";
+import eventEmitter from "../../eventEmitter";
 import Logger from "../../loggers/Logger";
 import { LoggerLevel } from "../../loggers/types";
 import taskRepo from "../../repository/taskRepo";
@@ -15,7 +16,7 @@ export default abstract class UpdateTask {
     if (result.err) {
       throw new BaseError(result.err.message, 400, false);
     }
-    const task = taskRepo.instance.updateOne(
+    const task = await taskRepo.instance.updateOne(
       {
         userID,
         _id: taskID,
@@ -23,6 +24,10 @@ export default abstract class UpdateTask {
       result.value
     );
     Logger.instance.write(LoggerLevel.info, "task updated");
+    eventEmitter.instance.emitEvent("SOCKET_EVENT", {
+      channel: "UPDATE_TASK",
+      data: task,
+    });
     return task;
   }
 }

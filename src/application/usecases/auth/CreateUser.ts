@@ -2,6 +2,7 @@ import { ValidatorSchemas } from "../../../entities/interfaces/Validator";
 import { CreateUserDTO } from "../../controllers/dto/auth";
 import hasher from "../../cryptography/hasher";
 import BaseError from "../../errors/BaseError";
+import eventEmitter from "../../eventEmitter";
 import Logger from "../../loggers/Logger";
 import { LoggerLevel } from "../../loggers/types";
 import userRepo from "../../repository/userRepo";
@@ -24,6 +25,10 @@ export default abstract class CreateUser {
     result.value.password = await hasher.instance.hash(result.value.password);
     const createdUser = await userRepo.instance.create(result.value);
     Logger.instance.write(LoggerLevel.info, "user created successfully");
+    eventEmitter.instance.emitEvent("SOCKET_EVENT", {
+      channel: "CREATED_USER",
+      data: createdUser,
+    });
     return createdUser;
   }
 }

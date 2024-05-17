@@ -1,6 +1,6 @@
 import { registerDependencies } from "../injection";
 registerDependencies();
-import ServerInterface from "../types";
+import { ServerInterface } from "./types";
 import express from "express";
 import morgan from "morgan";
 import RateLimiter from "../ratelimiter";
@@ -15,6 +15,7 @@ import { LoggerLevel } from "../../application/loggers/types";
 import ErrorMiddleware from "../middleware/express/error";
 import HeaderMiddleware from "../middleware/express/headers";
 import AppVersionMiddleware from "../middleware/express/appVersion";
+import SockerDotIO from "./SockerDotIO";
 
 export default class ExpressServer implements ServerInterface {
   start(): any {
@@ -58,7 +59,7 @@ export default class ExpressServer implements ServerInterface {
     );
 
     server.use(HeaderMiddleware);
-    server.use(AppVersionMiddleware)
+    server.use(AppVersionMiddleware);
 
     server.use("/api", router.registerRoutes());
 
@@ -78,12 +79,13 @@ export default class ExpressServer implements ServerInterface {
     server.use(ErrorMiddleware);
 
     if (config.getNodeEnv() !== "test") {
-      server.listen(config.getPort(), () => {
+      const httpServer = server.listen(config.getPort(), () => {
         Logger.instance.write(
           LoggerLevel.info,
           `server running on PORT ${config.getPort()}`
         );
       });
+      new SockerDotIO(httpServer).registerLocalListener("SOCKET_EVENT");
     }
 
     return server;

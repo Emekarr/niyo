@@ -4,6 +4,7 @@ import JoiValidator from "../validator/joi";
 import UserRepo from "../repository/modelRepos/userRepo";
 import cryptography from "../cryptography";
 import TaskRepo from "../repository/modelRepos/taskRepo";
+import { EventEmitter } from "../eventEmitter";
 
 export const registerDependencies = () => {
   container.register("LoggerInterface", {
@@ -28,5 +29,9 @@ export const registerDependencies = () => {
 
   container.register("JWTGeneratorInterface", {
     useClass: cryptography.defaultTokenGenerator,
+  });
+
+  container.register("EventEmitterInterface", {
+    useClass: EventEmitter,
   });
 };
